@@ -1,0 +1,980 @@
+/* ==========================================================================
+   ARBORIZA SP — Folha de estilos do painel administrativo
+   Um único arquivo para TODAS as telas.
+
+   Para mudar a identidade visual, troque as variáveis do :root.
+   As cores foram tiradas das logos: verde-floresta, verde-folha e o
+   cinza-chumbo dos prédios.
+
+   Sumário
+    1. Variáveis e reset
+    2. Barra superior e navegação
+    3. Layout e títulos
+    4. Mensagens
+    5. Fluxo de pedidos (início)
+    6. Menu de módulos
+    7. Formulários
+    8. Botões
+    9. Tabelas, selos e miniaturas
+   10. Filtros
+   11. Login
+   12. Utilitários e responsivo
+   ========================================================================== */
+
+/* 1. VARIÁVEIS E RESET ===================================================== */
+:root {
+    --forest: #2e5e3e;
+    /* verde-floresta: marca, títulos, botão principal */
+    --forest-deep: #234a31;
+    /* hover do botão principal */
+    --leaf: #6aae3e;
+    /* verde-folha: detalhes e barras (não usar como cor de texto) */
+    --slate: #44545c;
+    /* cinza-chumbo: botões secundários */
+    --ink: #1d2a26;
+    /* texto principal */
+    --muted: #5f6e68;
+    /* texto secundário */
+    --paper: #f1f4ef;
+    /* fundo da página */
+    --card: #ffffff;
+    /* fundo dos cartões */
+    --line: #dce3da;
+    /* bordas */
+    --tint: #e9efe6;
+    /* fundo de cabeçalho de tabela e áreas suaves */
+
+    --danger: #b3382c;
+    --danger-soft: #f9e5e2;
+    --amber: #b9780f;
+    --amber-soft: #fbefd6;
+    --blue: #25688f;
+    --blue-soft: #dcebf4;
+    --green-soft: #def0df;
+    --grey-soft: #e8ebea;
+
+    --radius-card: 12px;
+    --radius-ctl: 8px;
+    --shadow: 0 1px 2px rgba(29, 42, 38, .06), 0 4px 14px rgba(29, 42, 38, .05);
+
+    --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Bricolage Grotesque', 'Figtree', system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    min-height: 100vh;
+}
+
+a {
+    color: var(--forest);
+}
+
+:focus-visible {
+    outline: 3px solid var(--leaf);
+    outline-offset: 2px;
+}
+
+/* 2. BARRA SUPERIOR E NAVEGAÇÃO ============================================ */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+}
+
+.topbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: .6rem 32px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.brand {
+    display: block;
+    flex-shrink: 0;
+}
+
+.brand img {
+    display: block;
+    height: 40px;
+    width: auto;
+}
+
+.mainnav {
+    display: flex;
+    gap: .25rem;
+    flex: 1;
+}
+
+.mainnav a {
+    padding: .5rem .85rem;
+    border-radius: var(--radius-ctl);
+    color: var(--slate);
+    font-weight: 600;
+    font-size: .95rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .15s;
+}
+
+.mainnav a:hover {
+    background: var(--tint);
+}
+
+/* Página atual: preenchida de verde, para não haver dúvida de onde você está */
+.mainnav a[aria-current="page"] {
+    background: var(--forest);
+    color: #fff;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    flex-shrink: 0;
+}
+
+.user-name {
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+/* 3. LAYOUT E TÍTULOS ====================================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 32px 56px;
+}
+
+h2,
+h3 {
+    font-family: var(--font-display);
+    color: var(--forest);
+    letter-spacing: -.01em;
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 2.25rem 0 1rem;
+}
+
+.page-header {
+    margin-bottom: 1.75rem;
+}
+
+.page-header h1 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--forest);
+    letter-spacing: -.02em;
+    line-height: 1.2;
+}
+
+.page-header p {
+    color: var(--muted);
+    margin-top: .25rem;
+}
+
+.page-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    padding-bottom: .9rem;
+    border-bottom: 2px solid var(--line);
+}
+
+.page-header-bar h2 {
+    font-size: 1.7rem;
+    font-weight: 700;
+}
+
+.header-actions {
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* 4. MENSAGENS ============================================================= */
+.message {
+    padding: .8rem 1.1rem;
+    border-radius: var(--radius-ctl);
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+
+.message.success {
+    background: var(--green-soft);
+    border-color: #b9dcbb;
+    color: #1f4d2b;
+}
+
+.message.error {
+    background: var(--danger-soft);
+    border-color: #efc1bb;
+    color: #7d241b;
+}
+
+/* 5. FLUXO DE PEDIDOS (INÍCIO) ============================================= */
+/* Três etapas lado a lado, com uma "ponta de seta" entre elas: o pedido
+   anda da esquerda para a direita. Cada etapa é um link para o painel
+   já filtrado. */
+.pipeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.stage {
+    --st: var(--muted);
+    position: relative;
+    display: block;
+    padding: 1.25rem 2rem 1.35rem 1.6rem;
+    border-top: 6px solid var(--st);
+    text-decoration: none;
+    color: var(--ink);
+}
+
+.stage+.stage {
+    border-left: 1px solid var(--line);
+}
+
+.stage::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    width: 16px;
+    height: 16px;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    transform: translate(50%, -50%) rotate(45deg);
+    z-index: 1;
+}
+
+.stage:last-child::after {
+    display: none;
+}
+
+.stage-requisitado {
+    --st: var(--amber);
+}
+
+.stage-em_andamento {
+    --st: var(--blue);
+}
+
+.stage-finalizado {
+    --st: #3e8e4a;
+}
+
+.stage-number {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--st);
+}
+
+.stage-name {
+    display: block;
+    margin-top: .4rem;
+    font-weight: 700;
+}
+
+.stage-desc {
+    display: block;
+    font-size: .88rem;
+    color: var(--muted);
+}
+
+.stage:hover .stage-name {
+    text-decoration: underline;
+}
+
+.pipeline-note {
+    margin-top: .6rem;
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+/* 6. MENU DE MÓDULOS ======================================================= */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.menu-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.menu-card:hover {
+    border-color: var(--leaf);
+    box-shadow: var(--shadow);
+}
+
+.menu-card a {
+    display: block;
+    padding: 1.4rem 1.5rem;
+    text-decoration: none;
+    color: var(--ink);
+}
+
+.menu-card-icon {
+    font-size: 1.9rem;
+    margin-bottom: .5rem;
+    line-height: 1;
+}
+
+.menu-card-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--forest);
+}
+
+.menu-card-desc {
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+/* 7. FORMULÁRIOS =========================================================== */
+form {
+    background: var(--card);
+    padding: 1.75rem 2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 2rem;
+}
+
+.form-grid .form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+label {
+    display: block;
+    margin-bottom: .35rem;
+    font-size: .92rem;
+    font-weight: 600;
+    color: var(--slate);
+}
+
+.req {
+    color: var(--danger);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: .65rem .85rem;
+    border: 1.5px solid #c6d0c4;
+    border-radius: var(--radius-ctl);
+    font-size: .98rem;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: #fff;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--forest);
+    box-shadow: 0 0 0 3px rgba(106, 174, 62, .3);
+}
+
+input[readonly] {
+    background: var(--tint);
+    color: var(--muted);
+    cursor: not-allowed;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: .6rem;
+    border: 1.5px dashed #b4c1b1;
+    border-radius: var(--radius-ctl);
+    font-size: .92rem;
+    font-family: var(--font-body);
+    color: var(--muted);
+    background: var(--paper);
+    cursor: pointer;
+}
+
+small {
+    display: block;
+    margin-top: .25rem;
+    font-size: .82rem;
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.form-actions {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    margin-top: .25rem;
+}
+
+.current-image {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-top: .75rem;
+    padding: .6rem;
+    background: var(--paper);
+    border-radius: var(--radius-ctl);
+}
+
+.current-image img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.current-image small {
+    margin: 0;
+}
+
+/* 8. BOTÕES ================================================================ */
+/* Links <a> e botões <button> (os de ação da tabela) compartilham o formato. */
+.btn-primary,
+.btn-edit,
+.btn-delete,
+.btn-music,
+.btn-back,
+.btn-advance,
+.btn-cancel,
+.btn-map {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    padding: .5rem 1rem;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-ctl);
+    font-size: .88rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    line-height: 1.4;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s;
+}
+
+/* Principal: preenchido */
+.btn-primary {
+    padding: .65rem 1.4rem;
+    font-size: .95rem;
+    background: var(--forest);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--forest-deep);
+}
+
+.btn-primary:disabled {
+    background: #9db3a4;
+    cursor: not-allowed;
+}
+
+/* Voltar / Sair / Cancelar: cinza-chumbo */
+.btn-back {
+    background: var(--slate);
+    color: #fff;
+}
+
+.btn-back:hover {
+    background: #34424a;
+}
+
+/* Ações da tabela: tons suaves, para a tabela não gritar */
+.btn-edit {
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.btn-edit:hover {
+    background: #c8dfee;
+}
+
+.btn-delete {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.btn-delete:hover {
+    background: #f3cfca;
+}
+
+.btn-music {
+    background: var(--green-soft);
+    color: var(--forest);
+}
+
+.btn-music:hover {
+    background: #cbe6cd;
+}
+
+/* Avançar no fluxo (Iniciar / Finalizar): a ação mais importante da linha */
+.btn-advance {
+    background: var(--forest);
+    color: #fff;
+}
+
+.btn-advance:hover {
+    background: var(--forest-deep);
+}
+
+.btn-cancel {
+    background: transparent;
+    border-color: #d8b4af;
+    color: var(--danger);
+}
+
+.btn-cancel:hover {
+    background: var(--danger-soft);
+}
+
+.btn-map {
+    margin-top: .35rem;
+    padding: .25rem .6rem;
+    font-size: .8rem;
+    background: var(--grey-soft);
+    color: var(--slate);
+}
+
+.btn-map:hover {
+    background: #d8dedb;
+}
+
+/* Mini-formulário dos botões POST: sem o visual de "cartão" */
+.inline-form {
+    display: inline;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 9. TABELAS, SELOS E MINIATURAS =========================================== */
+.table-container {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px 16px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--line);
+}
+
+th {
+    background: var(--tint);
+    color: var(--forest);
+    font-size: .88rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #f7f9f6;
+}
+
+.col-foto {
+    width: 90px;
+}
+
+.col-acoes {
+    white-space: nowrap;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.table-thumbnail {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+.no-image {
+    width: 56px;
+    height: 56px;
+    background: var(--paper);
+    border: 1.5px dashed #b4c1b1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .7rem;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.2;
+}
+
+td.empty-cell {
+    text-align: center;
+    color: var(--muted);
+    padding: 2rem;
+}
+
+/* Selos de status: cor + texto (a cor nunca é a única informação) */
+.badge {
+    display: inline-block;
+    padding: .2rem .65rem;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-requisitado {
+    background: var(--amber-soft);
+    color: var(--amber);
+}
+
+.badge-em_andamento {
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+.badge-finalizado {
+    background: var(--green-soft);
+    color: #2a6b36;
+}
+
+.badge-cancelado {
+    background: var(--grey-soft);
+    color: #55615b;
+}
+
+.badge-nativa {
+    background: var(--green-soft);
+    color: #2a6b36;
+}
+
+.badge-exotica {
+    background: var(--amber-soft);
+    color: var(--amber);
+}
+
+/* Barra de conclusão (relatórios) */
+.meter {
+    width: 140px;
+    height: 8px;
+    background: var(--grey-soft);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.meter-bar {
+    height: 100%;
+    background: var(--leaf);
+    border-radius: 999px;
+}
+
+/* 10. FILTROS ============================================================== */
+.filters {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 1.25rem;
+}
+
+/* O form já é um cartão (seção 7): aqui tiramos o visual para não ficar
+   "caixa dentro de caixa". */
+.filter-form {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.filter-item {
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-item.filter-wide {
+    flex: 2;
+    min-width: 240px;
+}
+
+.filter-item label {
+    font-size: .82rem;
+}
+
+.filter-actions {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+}
+
+.result-count {
+    font-size: .9rem;
+    color: var(--muted);
+    margin-bottom: .6rem;
+}
+
+/* 11. LOGIN ================================================================ */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.login-card {
+    background: var(--card);
+    padding: 2.25rem 2rem;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card form {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-logo {
+    display: block;
+    width: 150px;
+    height: auto;
+    margin: 0 auto 1rem;
+}
+
+.login-header h1 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--forest);
+    letter-spacing: -.01em;
+}
+
+.login-header p {
+    color: var(--muted);
+    font-size: .92rem;
+}
+
+.login-card .btn-primary {
+    width: 100%;
+    margin-top: .25rem;
+}
+
+.login-hint {
+    margin-top: 1.25rem;
+    padding: .7rem 1rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-ctl);
+    text-align: center;
+    font-size: .82rem;
+    color: var(--muted);
+}
+
+.login-hint code {
+    background: var(--tint);
+    padding: .1rem .35rem;
+    border-radius: 4px;
+    font-size: .82rem;
+}
+
+/* 12. UTILITÁRIOS E RESPONSIVO ============================================= */
+.text-muted {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+@media (max-width: 900px) {
+    .topbar-inner {
+        flex-wrap: wrap;
+        padding: .6rem 16px;
+        gap: .6rem 1rem;
+    }
+
+    .brand {
+        order: 1;
+        margin-right: auto;
+    }
+
+    .topbar-user {
+        order: 2;
+    }
+
+    /* A navegação ganha uma linha própria e rola para o lado se não couber */
+    .mainnav {
+        order: 3;
+        width: 100%;
+        flex: none;
+        overflow-x: auto;
+        padding-bottom: .15rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 18px 16px 40px;
+    }
+
+    .page-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .page-header-bar h2 {
+        font-size: 1.4rem;
+    }
+
+    form {
+        padding: 1.25rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-group {
+        flex-direction: column;
+        gap: .75rem;
+    }
+
+    .filter-item,
+    .filter-item.filter-wide {
+        min-width: 100%;
+    }
+
+    /* Fluxo vira uma coluna: a seta passa a apontar para baixo */
+    .pipeline {
+        grid-template-columns: 1fr;
+    }
+
+    .stage+.stage {
+        border-left: none;
+    }
+
+    .stage::after {
+        top: auto;
+        bottom: -1px;
+        right: auto;
+        left: 2rem;
+        transform: translate(-50%, 50%) rotate(135deg);
+    }
+
+    table {
+        min-width: 620px;
+    }
+
+    th,
+    td {
+        padding: 10px 12px;
+        font-size: .88rem;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
